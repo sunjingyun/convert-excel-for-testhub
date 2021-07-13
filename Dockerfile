@@ -38,7 +38,9 @@ WORKDIR /worktile
 
 ENV PORT=8080
 
-COPY --from=EXCELSERVICE /code/ /worktile/
+COPY --from=EXCELSERVICE /code/build/ /worktile/
 COPY --from=EXCELSERVICE /tmp/development/node_modules  /worktile/node_modules
 
 EXPOSE $PORT
+
+CMD ["node", "bootstrap.js"]
