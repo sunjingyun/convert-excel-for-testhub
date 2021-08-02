@@ -73,7 +73,7 @@ function trimBreak(str: string) {
             str = str.substr(0, str.length - 1);
         }
 
-        str.replace(/、/g, ".");
+        str = str.replace(/、/g, ".");
     }
     return str;
 }
