@@ -72,6 +72,8 @@ function trimBreak(str: string) {
         if (str.endsWith("\n")) {
             str = str.substr(0, str.length - 1);
         }
+
+        str.replace(/、/g, ".");
     }
     return str;
 }
