@@ -121,7 +121,7 @@ async function readExcelFile(path: string) {
                 step: trimBreak(row[9] as string),
                 expect: trimBreak(row[10] as string),
                 remark: `需求编号：${row[6] || ""}
-用例编号：${row[7] || ""}
+用例编号：${row[6] || ""}
 测试环境：${row[12] || ""}`
             };
 
