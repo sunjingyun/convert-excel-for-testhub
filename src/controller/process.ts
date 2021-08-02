@@ -120,7 +120,7 @@ async function readExcelFile(path: string) {
                 preCondition: row[8] as string,
                 step: trimBreak(row[9] as string),
                 expect: trimBreak(row[10] as string),
-                remark: `需求编号：${row[6] || ""}
+                remark: `需求编号：${row[5] || ""}
 用例编号：${row[6] || ""}
 测试环境：${row[12] || ""}`
             };
