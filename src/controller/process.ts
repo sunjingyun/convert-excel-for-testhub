@@ -9,7 +9,10 @@ interface Row {
     preCondition: string,
     step: string,
     expect: string,
-    remark: string
+    remark: string,
+    requirement: string,
+    testcase: string,
+    environment: string
 }
 
 function createExcelFile(rows: Row[]) {
@@ -30,14 +33,14 @@ function createExcelFile(rows: Row[]) {
         1.单次导入最多支持1000条。
         2.“标题”为必填项，必填字段为空时，不予以导入。
         `],
-        ["功能模块", "*标题", "维护人", "用例类型", "重要程度", "前置条件", "步骤描述", "预期结果", "关注人", "备注", "所属产品"]
+        ["功能模块", "*标题", "维护人", "用例类型", "重要程度", "前置条件", "步骤描述", "预期结果", "关注人", "备注", "所属产品", "需求编号", "用例编号", "测试环境"]
     ];
 
     for (const row of rows) {
-        data.push([row.module, row.title, undefined, undefined, row.priority, row.preCondition, row.step, row.expect, undefined, row.remark, undefined]);
+        data.push([row.module, row.title, undefined, undefined, row.priority, row.preCondition, row.step, row.expect, undefined, row.remark, undefined, row.requirement, row.testcase, row.environment]);
     }
 
-    const range = { s: { c: 0, r: 0 }, e: { c: 15, r: 0 } };
+    const range = { s: { c: 0, r: 0 }, e: { c: 18, r: 0 } };
     const sheetOptions = { '!merges': [range] };
     return xlsx.build([{ name: "test_case", data: data, options: sheetOptions }]);
 }
@@ -120,9 +123,10 @@ async function readExcelFile(path: string) {
                 preCondition: row[8] as string,
                 step: trimBreak(row[9] as string),
                 expect: trimBreak(row[10] as string),
-                remark: `需求编号：${row[5] || ""}
-用例编号：${row[6] || ""}
-测试环境：${row[12] || ""}`
+                remark: ``,
+                requirement: row[5] as string || "",
+                testcase: row[6] as string || "",
+                environment: row[12] as string || "",
             };
 
             result.push(newRow);
