@@ -64,7 +64,7 @@ function convertPriority(priority: string) {
 
 function trimBreak(str: string) {
     if (str) {
-        str.trim();
+        str = str.trim();
 
         if (str.startsWith("\n")) {
             str = str.substr(1);
@@ -73,7 +73,22 @@ function trimBreak(str: string) {
             str = str.substr(0, str.length - 1);
         }
 
-        str = str.replace(/、/g, ".");
+        const rows = str.split("\n");
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            const match = row.match("^[0-9]+、");
+            if (match && match[0]) {
+                const oldValue = match[0];
+                const newValue = oldValue.replace("、", ".");
+                rows[i] = row.replace(oldValue, newValue);
+            }
+        }
+        str = rows.join(`
+`);
+        
+        if (!str.match(/^[0-9]+\./)) {
+            str = "1." + str;
+        }
     }
     return str;
 }
