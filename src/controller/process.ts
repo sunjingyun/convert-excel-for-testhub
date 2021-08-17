@@ -12,7 +12,10 @@ interface Row {
     remark: string,
     requirement: string,
     testcase: string,
-    environment: string
+    environment: string,
+    machine: string,
+    smoke: string,
+    minCase: string
 }
 
 function createExcelFile(rows: Row[]) {
@@ -33,11 +36,11 @@ function createExcelFile(rows: Row[]) {
         1.单次导入最多支持1000条。
         2.“标题”为必填项，必填字段为空时，不予以导入。
         `],
-        ["功能模块", "*标题", "维护人", "用例类型", "重要程度", "前置条件", "步骤描述", "预期结果", "关注人", "备注", "所属产品", "需求编号", "用例编号", "测试环境"]
+        ["功能模块", "*标题", "维护人", "用例类型", "重要程度", "前置条件", "步骤描述", "预期结果", "关注人", "备注", "所属产品", "需求编号", "用例编号", "测试环境", "适用机型", "冒烟用例", "最小用例集"]
     ];
 
     for (const row of rows) {
-        data.push([row.module, row.title, undefined, undefined, row.priority, row.preCondition, row.step, row.expect, undefined, row.remark, undefined, row.requirement, row.testcase, row.environment]);
+        data.push([row.module, row.title, undefined, undefined, row.priority, row.preCondition, row.step, row.expect, undefined, row.remark, undefined, row.requirement, row.testcase, row.environment, row.machine, row.smoke, row.minCase]);
     }
 
     const range = { s: { c: 0, r: 0 }, e: { c: 18, r: 0 } };
@@ -82,12 +85,13 @@ function convertSteps(str: string) {
         const output: string[] = [];
 
         for (const row of rows) {
-            const value = row.trim();
+            const value = row.replace(/\r/g, "").replace(/\t/g, "").trim();
             const lastChar = value[value.length - 1];
+
             if ([",", "，", ".", "。", ";", "；", ":", "：", "…", "、"].includes(lastChar)) {
                 output.push(value);
             }
-            else {
+            else if (value !== "") {
                 output.push(value + "；");
             }
         }
@@ -156,6 +160,9 @@ async function readExcelFile(path: string) {
                 requirement: row[5] as string || "",
                 testcase: row[6] as string || "",
                 environment: row[12] as string || "",
+                machine: row[13] as string || "",
+                smoke: row[14] as string || "否",
+                minCase: row[15] as string || "否"
             };
 
             result.push(newRow);
