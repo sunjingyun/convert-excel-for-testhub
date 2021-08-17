@@ -84,7 +84,7 @@ function convertSteps(str: string) {
         for (const row of rows) {
             const value = row.trim();
             const lastChar = value[value.length - 1];
-            if ([",", ".", ";", ":", "，", "。", "；", "：", "、"].includes(lastChar)) {
+            if ([",", "，", ".", "。", ";", "；", ":", "：", "…", "、"].includes(lastChar)) {
                 output.push(value);
             }
             else {
