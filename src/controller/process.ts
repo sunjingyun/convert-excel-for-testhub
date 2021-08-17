@@ -72,25 +72,37 @@ function trimBreak(str: string) {
         if (str.endsWith("\n")) {
             str = str.substr(0, str.length - 1);
         }
-
-        const rows = str.split("\n");
-        for (let i = 0; i < rows.length; i++) {
-            const row = rows[i];
-            const match = row.match("^[0-9]+、");
-            if (match && match[0]) {
-                const oldValue = match[0];
-                const newValue = oldValue.replace("、", ".");
-                rows[i] = row.replace(oldValue, newValue);
-            }
-        }
-        str = rows.join(`
-`);
-        
-        if (!str.match(/^[0-9]+\./)) {
-            str = "1." + str;
-        }
     }
     return str;
+}
+
+function convertSteps(str: string) {
+    if (str) {
+        const rows = str.split("\n");
+        const output: string[] = [];
+
+        for (const row of rows) {
+            const value = row.trim();
+            const lastChar = value[value.length - 1];
+            if ([",", ".", ";", ":", "，", "。", "；", "：", "、"].includes(lastChar)) {
+                output.push(value);
+            }
+            else {
+                output.push(value + "；");
+            }
+        }
+        const result = output.join("");
+
+        if (result.startsWith("1.")) {
+            return result;
+        }
+        else {
+            return "1." + result;
+        }
+    }
+    else {
+        return "1.";
+    }
 }
 
 async function readExcelFile(path: string) {
@@ -138,8 +150,8 @@ async function readExcelFile(path: string) {
                 title: (row[7] as string).trim(),
                 priority: convertPriority(row[11] as string) as string,
                 preCondition: row[8] as string,
-                step: trimBreak(row[9] as string),
-                expect: trimBreak(row[10] as string),
+                step: convertSteps(row[9] as string),
+                expect: convertSteps(row[10] as string),
                 remark: ``,
                 requirement: row[5] as string || "",
                 testcase: row[6] as string || "",
