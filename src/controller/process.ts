@@ -15,7 +15,8 @@ interface Row {
     environment: string,
     machine: string,
     smoke: string,
-    minCase: string
+    minCase: string,
+    isPlatform: string
 }
 
 function createExcelFile(rows: Row[]) {
@@ -36,11 +37,11 @@ function createExcelFile(rows: Row[]) {
         1.单次导入最多支持1000条。
         2.“标题”为必填项，必填字段为空时，不予以导入。
         `],
-        ["功能模块", "*标题", "维护人", "用例类型", "重要程度", "前置条件", "步骤描述", "预期结果", "关注人", "备注", "所属产品", "需求编号", "用例编号", "测试环境", "适用机型", "冒烟用例", "最小用例集"]
+        ["功能模块", "*标题", "维护人", "用例类型", "重要程度", "前置条件", "步骤描述", "预期结果", "关注人", "备注", "所属产品", "需求编号", "用例编号", "测试环境", "适用机型", "冒烟用例", "最小用例集", "设计是否平台化"]
     ];
 
     for (const row of rows) {
-        data.push([row.module, row.title, undefined, undefined, row.priority, row.preCondition, row.step, row.expect, undefined, row.remark, undefined, row.requirement, row.testcase, row.environment, row.machine, row.smoke, row.minCase]);
+        data.push([row.module, row.title, undefined, undefined, row.priority, row.preCondition, row.step, row.expect, undefined, row.remark, undefined, row.requirement, row.testcase, row.environment, row.machine, row.smoke, row.minCase, row.isPlatform]);
     }
 
     const range = { s: { c: 0, r: 0 }, e: { c: 18, r: 0 } };
@@ -162,7 +163,8 @@ async function readExcelFile(path: string) {
                 environment: row[12] as string || "",
                 machine: row[13] as string || "",
                 smoke: row[14] as string || "否",
-                minCase: row[15] as string || "否"
+                minCase: row[15] as string || "否",
+                isPlatform: row[16] as string || "",
             };
 
             result.push(newRow);
