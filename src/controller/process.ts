@@ -162,8 +162,8 @@ async function readExcelFile(path: string) {
                 testcase: row[6] as string || "",
                 environment: row[12] as string || "",
                 machine: row[13] as string || "",
-                smoke: row[14] as string || "否",
-                minCase: row[15] as string || "否",
+                smoke: row[14] as string || "",
+                minCase: row[15] as string || "",
                 isPlatform: row[16] as string || "",
             };
 
