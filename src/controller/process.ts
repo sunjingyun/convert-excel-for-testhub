@@ -15,8 +15,8 @@ interface Row {
     environment: string,
     machine: string,
     smoke: string,
-    minCase: string,
-    isPlatform: string
+    minCase?: string,
+    isPlatform?: string
 }
 
 function createExcelFile(rows: Row[]) {
@@ -163,8 +163,8 @@ async function readExcelFile(path: string) {
                 environment: row[12] as string || "",
                 machine: row[13] as string || "",
                 smoke: row[14] as string || "",
-                minCase: row[15] as string || "",
-                isPlatform: row[16] as string || "",
+                minCase: row[15] as string || undefined,
+                isPlatform: row[16] as string || undefined,
             };
 
             result.push(newRow);
