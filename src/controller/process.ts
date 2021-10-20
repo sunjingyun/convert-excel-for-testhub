@@ -81,7 +81,7 @@ function trimBreak(str: string) {
 }
 
 function convertSteps(str: string) {
-    if (str) {
+    if (str && str.split) {
         const rows = str.split("\n");
         const output: string[] = [];
 
