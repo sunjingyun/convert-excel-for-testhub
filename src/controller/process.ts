@@ -12,9 +12,9 @@ interface Row {
     remark: string,
     requirement: string,
     testcase: string,
-    environment: string,
-    machine: string,
-    smoke: string,
+    environment?: string,
+    machine?: string,
+    smoke?: string,
     minCase?: string,
     isPlatform?: string
 }
@@ -160,9 +160,9 @@ async function readExcelFile(path: string) {
                 remark: ``,
                 requirement: row[5] as string || "",
                 testcase: row[6] as string || "",
-                environment: row[12] as string || "",
-                machine: row[13] as string || "",
-                smoke: row[14] as string || "",
+                environment: row[12] as string || undefined,
+                machine: row[13] as string || undefined,
+                smoke: row[14] as string || undefined,
                 minCase: row[15] as string || undefined,
                 isPlatform: row[16] as string || undefined,
             };
