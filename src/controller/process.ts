@@ -67,7 +67,7 @@ function convertPriority(priority: string) {
 }
 
 function trimBreak(str: string) {
-    if (str) {
+    if (str && str.trim) {
         str = str.trim();
 
         if (str.startsWith("\n")) {
@@ -152,7 +152,7 @@ async function readExcelFile(path: string) {
 
             const newRow: Row = {
                 module: [module1, module2, module3, module4, module5].filter(m => m).join("/"),
-                title: (row[7] as string).trim(),
+                title: (row[7] as string || "").trim(),
                 priority: convertPriority(row[11] as string) as string,
                 preCondition: row[8] as string,
                 step: convertSteps(row[9] as string),
